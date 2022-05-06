@@ -18,7 +18,7 @@ class PageNotFound(Exception):
 
 class MyConfluenceExporter(Confluence):
 
-    def download_attachement(self, url: str, filepath: str):                
+    def download_attachment(self, url: str, filepath: str):                
         with self._session.request(
                 method='GET',
                 url=url,

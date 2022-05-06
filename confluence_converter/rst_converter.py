@@ -1,6 +1,9 @@
 from functools import reduce
 from ossaudiodev import control_names
 from typing import List, Union
+from bs4.element import Tag
+
+
 
 def make_table(grid: List[List[str]]):
     print(grid)
@@ -73,6 +76,29 @@ class RSTConverter:
             new_content = '\n'.join(new_content).rstrip()
             return CodeBlock(f"\n::\n\n{new_content}\n\n")
 
+    def create_heading_markup(self, tag: Tag) -> str:
+        if tag and len(tag.text) == 0:
+            return ''
+
+        if tag and tag.text:
+            my_string = tag.text.strip()
+            if len(my_string) == 0:
+                return ''
+            if tag.name == "h1":
+                the_string = "\n" + my_string + "\n" + "-" * len(my_string) + "\n\n"
+                return the_string
+            elif tag.name == "h2":
+                the_string = "\n" + my_string + "\n" + "^" * len(my_string) + "\n\n"
+                return the_string
+            elif tag.name == "h3":
+                the_string = "\n" + my_string + "\n" + ":" * len(my_string) + "\n\n"
+                return the_string
+            elif tag.name == "h4":
+                the_string = "\n" + my_string + "\n" + ";" * len(my_string) + "\n\n"
+                return the_string
+
+        raise ValueError("Invalid header tag: " + str(tag))
+
 def main():
     c = RSTConverter()
     # s = ["Item one", "Item two", ["Subitem one", "Subitem two", ["subsub item one"] ]]
@@ -80,6 +106,8 @@ def main():
     # print(c.create_list(s))
     t = 'def transform(self):\n    self._create_top_level_heading(self._page_title)\n    for tag in self._soup.find_all(recursive=False): #type: Tag\n        self._process_tag(tag)\n        self._lines.append("\\n")\n        with open("sphinx/pages/mytest.rst", "w") as f:\n            f.writelines(self._lines)'
     print(c.create_code_block(t))
+    
+    
 
 if __name__ == '__main__':
     main()

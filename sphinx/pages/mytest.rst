@@ -1,6 +1,6 @@
 v3.7 Deployable Interceptor Platform (DIP) Troubleshooting Guide
 ================================================================
-.. _d9b3396c:
+.. _e4463d54:
 
 v3.
 7 Deployable Interceptor Platform (DIP)
@@ -43,11 +43,15 @@ Introduction
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Installation Troubleshooting
 ----------------------------
 
+
+
+Handling a Failure on Installation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Handling a Failure on Installation  
 
@@ -59,17 +63,7 @@ Handling a Failure on Installation  
 
 
 1. If the installation fails:
-
-   1. Take note of the specific point in the installation at which the failure occurred
-   2. Which component was being installed?  Which task was Ansible performing?
-   3. Is there any useful information to be seen in the error messages?
 2. Log in to theServiceNow portal (https://afdco.servicenowservices.com/sp) if the installation fails:
-
-   1. Take note of the specific point in the installation at which the failure occurred
-   2. Which component was being installed?
-   3. Which task was Ansible performing?
-   4. Check for error messages on the Portal page under the Notifications bell icon
-   5. Is there any useful information to be seen in the error messages?
 3. Ansible tends to produce a very verbose error output and it can be difficult to find which portion(s) of it are relevant.
 
 ::
@@ -78,61 +72,8 @@ Handling a Failure on Installation  
 
 4. The TFPlenum subsystem is comprised of several different components that make up the system.  Debugging the installation process begins with knowing which component specifically caused the error before the why can be determined.
 
-   1. Take a screenshot of the error (depending on the host OS, this can be done in a variety of ways):
-
-      1. On Red Hat Linux:
-
-         1. Verify gnome-screenshot is installed or install it (if necessary) using the following command:
-
-         ::
-
-            yum -y install gnome-screenshot
-
-         2. Start gnome-screenshot using the following command:
-
-         ::
-
-            gnome-screenshot
-
-         3. PressFn + PrntScrnto take a screenshot of the entire screen
-         4. PressFn + Alt + PrntScrnto take a screenshot of just the active window
-
-         ::
-
-            Screenshots will be saved to thePicturesdirectory in the current user's home directory.
-
-      2. Using the Snipping tool on Windows:
-
-         1. TypeSnipping Toolin the Cortana search bar in the bottom leftClick the labeled icon when it appears in the results (a smallSnipping Tool window will appear)
-         2. To create a new snip:
-
-            1. ClickNewand all the operative displays will be covered with a translucent white overlay (the cursor will be replaced with crosshairs)
-            2. Use the crosshairs cursor to click and drag a rectangle containing the area of the screen that needs to be in the screenshot (i.e., the window containing the PuTTY session or VM window)
-            3. Release the mouse button and the Snipping Tool will bring up a picture containing the contents of the rectangle created
-            4. ClickFileandSave Asto save this picture
-   2. Refer toBug Reporting and System Change/Enhancement Requeststo gain access and obtain User Guide
-   3. Create an incident (INC) ticket through the assigned DANS On-Site Support (DOSS) or Service Desk queue explaining the error to be forwarded to the developer team for reviewServiceNow Service Portal
-   4. 
-   .. figure:: /images/image2020-1-27_9-4-42.png
-
-   5. Accessing site
-
-      1. SelectGet-Help >Can We Help You?
-      2. Determine the support needed (CPT, MDT, etc.)
-      3. The summary should contain a brief description of the error
-      4. The problematic component/s should contain the basic system ( i.e. Server, Sensor, Switch, etc.)
-      5. Make use of the drop-down menu
-      6. The description should contain as much pertinent information about the error as can be supplied (i.e. snippets of the messages, what may be wrong, etc.)
-      7. Urgency should contain an honest assessment of how urgent the error is
-      8. Scroll down to the Attachment field
-
-         1. Attach all pertinent screenshots of the error
-         2. This can be done with theAdd Attachmentslink
-         3. Fill in any pertinent information
-         4. ClickSubmitand the assigned Service Desk team will reach out to the contact provided as soon as possible to further troubleshoot and resolve the error if necessary
-
  
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Pod Errors
 ^^^^^^^^^^
@@ -142,7 +83,7 @@ Handling Pod Failures
 **Handling Pod Failures**
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 Kube-System Errors
 **Kube-System Errors**
 
@@ -163,7 +104,7 @@ Kube-System Errors
 4. Wait two minutes and make sure all Kube-system pods are running before continuing
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 Elastic-System Errors
 **Elastic-System Errors**
 
@@ -184,7 +125,7 @@ Elastic-System Errors
 4. All Default pods should now be running; if not, perform Default Errors steps
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 Default Errors
 **Default Errors**
 
@@ -204,7 +145,7 @@ Default Errors
 3. Wait until all pods are running
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 Restart Frontend
 **Restart Frontend**
 
@@ -216,7 +157,7 @@ After all, pods are deleted and have come back up, issue the following command:
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Diagnostic Tool
 ---------------
@@ -244,7 +185,7 @@ Run Diagnostics
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Download Diagnostics
 ^^^^^^^^^^^^^^^^^^^^
@@ -260,7 +201,7 @@ Download Diagnostics
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 How to Troubleshoot Application Errors
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -285,7 +226,7 @@ The art of troubleshooting is very much like that of forming a scientific hypoth
  Collect as much data as possible and fully exhaust possible hypotheses. 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Web Errors
 ::::::::::
@@ -331,7 +272,7 @@ Web Errors
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Catalog Apps not Appearing
 ::::::::::::::::::::::::::
@@ -344,14 +285,10 @@ Catalog Apps not Appearing
 4. Return to the Networking Response page
 5. Compare it to the status code; if it is 200, then it is good
 6. Check knowledge bases for anything else that points to a problem and needs further investigation
-
-   1. Confluence
-   2. Helpdesk database of similar reported issues
-   3. Go to the opensource community to see if bugs like this are being reported with any FOSS
 7. Google is another source -- copy the entire error log message into GoogleUse this for forming a troubleshooting hypothesis
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Controller Lockout
 ------------------
@@ -374,21 +311,6 @@ To Log in as Superadmin to Reset Admin Password:
 
 1. SSH to the controller
 2. Edit the tfplenum Apache config file and remove the blocks for the master realm console
-
-   1. /etc/httpd/conf.d/tfplenum.conf, ~lines 102-109
-
-   ::
-
-      #<Location /auth/admin/master/>
-      #    Order Allow,Deny
-      #    Require all denied
-      #</Location>
-      #<Location /auth/realms/master/>
-      #    Order Allow,Deny
-      #    Require all denied
-      #</Location>
-
-   2. use # to comment out those lines
 3. Restart the Apache service:systemctl restart httpd
 4. Get the password fromcat /opt/sso-idp/sso_admin_password.txt(copy password)
 5. The username issuperadmin
@@ -417,7 +339,7 @@ To Log in as Superadmin to Reset Admin Password:
    Once the password is reset disable the super admin account.
 
 
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 
 Recovering from Disk Fill Ups
@@ -434,7 +356,7 @@ During operations, it is recommended that the disks on the server side are perio
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 Kibana Failure Instructions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -483,70 +405,6 @@ If the disks fill up and Kibana is no longer accessible, the following instructi
 ::
 
    The _delete_by_query API only marks the queried documents as deleted.  It does not clear the disk.  To force a disk cleanup on documents that have been deleted use the _force_merge API call.  See the example below for more details.
-
-
-   1. Ensure that a bucket has been created on the MinIO Server
-
-      1. Navigate tohttp://<minio IP>:9000/bucketsand login with assessor/PMO provided password
-      2. Click onCreate Bucketand give it a name
-   2. Recommended first verify there is enough space allocated on the MinIO server for backing up data
-
-      1. Navigate tohttp://<minio IP>:9000/dashboardand login with assessor/PMO provided password
-      2. Click on theDrivesto show the capacityKeep the amount of storage available in mind while planning on which indexes/data will be backed up
-   3. Perform the following instruction to create the snapshot:
-
-   ::
-
-      # Verify that minio is setup
-      curl -XGET -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/_snapshot"
-      
-      # If the S3 bucket is not setup run the following command.  (NOTE: <REPO_NAME> can be any arbitrary name of your choosing.  The <BUCKET NAME> must match the bucket created on the minio server console.
-      curl -XPUT -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/_snapshot/<REPO_NAME>" -H 'Content-Type: application/json' -d'
-      {
-        "type": "s3",
-        "settings": {
-          "bucket": "<BUCKET NAME>",
-          "client": "default",
-          "endpoint": "<MINIO IP ADDRESS>:9001",
-          "protocol": "http"
-        }
-      }' 
-      
-      curl -XGET -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/_snapshot"
-      
-      # To take a snapshot run the following command.  Replace the the example indices below with the ones user wishes to backup.
-      curl -XPUT -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/_snapshot/tfplenum/sessions_backup?wait_for_completion=false" -H 'Content-Type: application/json' -d'
-      {
-        "indices": "sessions2-170518h06,sessions2-211111h18",
-        "ignore_unavailable": true,
-        "include_global_state": false,
-        "metadata": {
-          "taken_by": "Operator",
-          "taken_because": "backup before deletion"
-        }
-      }'
-      
-      # If the user is positive the deletion of the index is not in use by the system, delete the indexes with the following curl command. (NOTE: Replace the sessions2-170518h06,sessions2-211111h18, with the indexes you wish to delete.)
-      
-      curl -XDELETE -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/sessions2-170518h06,sessions2-211111h18"
-      
-      # If the read_only_allow_delete flag is no longer set, the user can execute _delete_by_query API calls instead of deleting entire indexes if they so desire.
-      curl -XGET -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/filebeat-external-cold-log-system/_settings" | grep read_only_allow_delete
-      
-      # DO NOT DELETE the index unless the user is positive it is not being actively written to.  When in doubt, run a delete by query with a match_all clause.
-      curl -XPOST -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/sessions2-170518h06,sessions2-211111h18/_delete_by_query?wait_for_completion=false" -H 'Content-Type: application/json' -d'
-      {
-        "query": {
-          "match_all": {}
-        }
-      }'
-      
-      #Upon successful completion of the above POST command, the user will receive a task ID which the user may subsequently check that status of the job with.
-      curl -XGET -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/_tasks/<TASK_ID>"
-      
-      #After the task is completed run the following replacing the <INDEX_NAME> with the index that the user wishes to force deletions.
-      curl -XPOST -u elastic:$ELASTIC_PASSWORD "https://elasticsearch:9200/<INDEX_NAME>/_forcemerge?max_num_segments=1"
-      # This command will force the deletion of the documents removed and clear the disk space for any of the delete by queries that were previously executed.
 
 4. (Secondary approach)Use the delete by query APIfor the data the user wishes to simply delete without doing backups.  This is the safest way to remove data without causing issues with indexes that are still in use.  If certain that a particular index is no longer in use, delete the index.
 
@@ -605,7 +463,7 @@ If the disks fill up and Kibana is no longer accessible, the following instructi
 
 
 Return to Top
-:ref:`Top of Page <d9b3396c>`
+:ref:`Top of Page <e4463d54>`
 
 
 
