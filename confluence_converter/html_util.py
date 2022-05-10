@@ -54,7 +54,15 @@ class HTMLTag:
     @classmethod
     def is_strong(cls, tag: Tag) -> bool:
         return cls._is_tag(tag, "strong")
+    
+    @classmethod
+    def is_underline(cls, tag: Tag) -> bool:
+        return cls._is_tag(tag, "u")
         
+    @classmethod
+    def is_italics(cls, tag: Tag) -> bool:
+        return cls._is_tag(tag, "em")
+
     @classmethod
     def is_break(cls, tag: Tag) -> bool:
         return cls._is_tag(tag, "br")
@@ -77,8 +85,19 @@ class HTMLTag:
     
     @classmethod
     def is_link(cls, tag: Tag) -> bool:
-        return cls._is_tag(tag, "ac:link")
+        return cls._is_tag(tag, "ac:link") or cls._is_tag(tag, "a")
 
     @classmethod
     def is_list_item(cls, tag: Tag) -> bool:
         return cls._is_tag(tag, "li")
+
+    @classmethod
+    def is_parent_a_macro_or_rich_text(cls, tag: Tag) -> bool:
+        if tag.parent:
+            if HTMLTag.is_rich_text_body(tag.parent) or HTMLTag.is_structured_macro(tag.parent):
+                return True
+
+            elif tag.parent.parent:
+                if HTMLTag.is_rich_text_body(tag.parent.parent) or HTMLTag.is_structured_macro(tag.parent.parent):
+                    return True
+        return False    
