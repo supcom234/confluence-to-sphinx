@@ -1,0 +1,7 @@
+<ol><li><p>This is a test</p><p><ac:image ac:alt="Blah" ac:height="250" ac:queryparams="effects=border-simple,blur-border" ac:title="Blah"><ri:attachment ri:filename="add_installer_config.jpg"></ri:attachment></ac:image></p><ac:structured-macro ac:macro-id="9ff3e27d-c485-4496-9c63-812e316fb85d" ac:name="code" ac:schema-version="1"><ac:parameter ac:name="language">bash</ac:parameter><ac:plain-text-body><![CDATA[def transform(self):
+    self._create_top_level_heading(self._page_title)
+    for tag in self._soup.find_all(recursive=False): #type: Tag
+        self._process_tag(tag)
+        self._lines.append("\n")
+        with open("sphinx/pages/mytest.rst", "w") as f:
+            f.writelines(self._lines)]]></ac:plain-text-body></ac:structured-macro></li><li>This is a test2</li><li><ac:image ac:height="168" ac:thumbnail="true"><ri:attachment ri:filename="baby_yoda.jpg"></ri:attachment></ac:image></li><li>Type <strong>Snipping Tool </strong>in the Cortana search bar in the bottom left </li></ol>

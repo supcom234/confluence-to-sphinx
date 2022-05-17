@@ -1,11 +1,12 @@
 import copy
+import pdb
 
 from functools import reduce
 from ossaudiodev import control_names
 from bs4 import NavigableString
 from bs4.element import Tag
 from confluence_converter.html_util import HTMLTag
-from confluence_converter.exporter import MyConfluenceExporter
+from confluence_converter.exporter import ConfluencePage, MyConfluenceExporter
 from typing import Dict, Tuple, List, Union
 from uuid import uuid4
 
@@ -80,9 +81,14 @@ def get_tag_text(tag: Tag, *tags_to_strip) -> str:
 
 class RSTConverter:
     
-    def __init__(self, confluence: MyConfluenceExporter = None, link_cache={}):
+    def __init__(self, confluence: MyConfluenceExporter = None, link_cache={}, is_confluence_mock=False):
         self._link_cache = link_cache
         self._confluence = confluence
+        if is_confluence_mock:
+            self._confluence = MyConfluenceExporter()
+
+    def set_page_reference(self, page: ConfluencePage):
+        self._page = page
 
     def _get_image_tag_contents(self, tag: Tag) -> Tuple[Dict, Dict]:
         attachment = tag.find_next("ri:attachment")
@@ -130,19 +136,27 @@ class RSTConverter:
         list_items = tag.find_all("li", recursive=False)
         list_data_struct = []
         for list_item in list_items:
-            text = get_tag_text(list_item, "ol", "ul", "ac:structured-macro")
-            if text != None:
-                list_data_struct.append(text)
+            # text = get_tag_text(list_item, "ol", "ul", "ac:structured-macro")
+            # if text != None:
+            #     list_data_struct.append(text)
+            # if list_item.string:
+            #     list_data_struct.append(list_item.string)
 
             for child in list_item.children:
                 if HTMLTag.is_structured_macro(child):
                     list_data_struct.append(self.create_structured_macro_markup(child))
-                # if HTMLTag.is_image(child):
-                #     list_data_struct.append(self._create_image_markup(child))
+                elif HTMLTag.is_image(child):
+                    markup, filename = self.create_image_markup(child)
+                    self._confluence.download_image(filename, self._page)
+                    list_data_struct.append(CodeBlock(markup))
+                elif HTMLTag.is_paragraph(child):
+                    list_data_struct.append(self.create_paragraph_markup(child))
                 elif HTMLTag.is_ordered_list(child):
                     list_data_struct.append(self._create_list_data_struct(child))
                 elif HTMLTag.is_unordered_list(child):
                     list_data_struct.append(self._create_list_data_struct(child))
+                elif isinstance(child, NavigableString):
+                    list_data_struct.append(self._my_string(child))
 
         return list_data_struct
 
@@ -170,6 +184,7 @@ class RSTConverter:
             raise InvalidTagError(tag)
             
         data_struct = self._create_list_data_struct(tag)
+        # pdb.set_trace()
         return self._create_list(data_struct)
 
     def create_code_block(self, content: str) -> CodeBlock:
@@ -239,7 +254,10 @@ class RSTConverter:
             ret_val = self.create_link_markup(tag)
         elif HTMLTag.is_image(tag):
             ret_val, filename = self.create_image_markup(tag)
-            self._confluence.download_image(filename)
+            self._confluence.download_image(filename, self._page)
+        # elif tag.next is not None and isinstance(tag.next, NavigableString):
+        #     my_string = self._my_string(tag)
+        #     ret_val = ret_val + " " + my_string
 
         return ret_val
 

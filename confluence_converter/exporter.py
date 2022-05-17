@@ -1,44 +1,50 @@
-import json
-import time
-import os
-
 from atlassian import Confluence
-from datetime import datetime, timedelta
-from time import sleep
-from typing import List, Union, Dict
-
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
-ACCEPT_ENCODING = 'gzip, deflate, br'
-ACCEPT_LANG = 'en-US,en;q=0.9'
-HOST = 'confluence.di2e.net'
-ORIGIN = 'https://confluence.di2e.net'
-
-SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../"
+from confluence_converter import PROJECT_ROOT_DIR
+from confluence_converter.config_util import ConfigManager
+from typing import Dict
 
 
 class PageNotFound(Exception):
     pass
 
 
-CONFLUENCE_URL = "https://confluence.di2e.net"
-CONFLUENCE_USERNAME = "david.navarro"
-CONFLUENCE_PASSWORD = ""
-CONFLUENCE_SPACE = "THISISCVAH"
-CONFLUENCE_SAMPLE = "v3.7 Deployable Interceptor Platform (DIP) Troubleshooting Guide"
-# CONFLUENCE_SAMPLE = "Test Page Delete Later For prototype"
+class ConfluencePage:
+    
+    def __init__(self, id: str, title: str, 
+                 content: Dict, attachments: Dict):
+        self.id = id
+        self.title = title
+        self.content = content
+        self.attachments = attachments
+
+    @property
+    def content_body(self):
+        return self.content['body']['storage']['value']
+
+    @property
+    def title_filename(self):
+        """
+        Converts a title to all lower case with underscores instead of spaces.
+        """        
+        ret_val = self.title
+        return ret_val.replace(" ", "_").lower()
 
 
 class MyConfluenceExporter(Confluence):
 
-    def __init__(self):
-        super().__init__(url=CONFLUENCE_URL,
-                         username=CONFLUENCE_USERNAME,
-                         password=CONFLUENCE_PASSWORD)
+    def __init__(self, config: ConfigManager):
+        self._config = config
+        super().__init__(url=config.confluence_url,
+                         username=config.confluence_username,
+                         password=config.confluence_password)
+    
+    def page_iterator(self) -> ConfluencePage:
+        for title in self._config.confluence_pages:
+            id = self.get_page_id(self._config.confluence_space, title)
+            content = self.get_page_by_id(id, expand="body.storage")
+            attachments = self.get_attachments_from_content(id)
 
-        self._page_title = CONFLUENCE_SAMPLE
-        self._page_id = self.get_page_id(CONFLUENCE_SPACE, self._page_title)
-        self._page = self.get_page_by_id(self._page_id, expand="body.storage")
-        self._attachments = self.get_attachments_from_content(self._page_id)
+            yield ConfluencePage(id, title, content, attachments)
 
     def _download_attachment(self, url: str, filepath: str):
         with self._session.request(
@@ -55,22 +61,10 @@ class MyConfluenceExporter(Confluence):
                         if chunk:
                             f.write(chunk)
 
-                print("Successfully downloaded attachement to {}".format(filepath))
+                print("Successfully downloaded attachment to {}".format(filepath))
 
-    @property
-    def current_page(self):
-        return self._page
-
-    @property
-    def current_page_content(self):
-        return self._page['body']['storage']['value']
-
-    @property
-    def current_page_title(self):
-        return self._page_title     
-
-    def download_image(self, filename: str):
-        for item in self._attachments['results']:
+    def download_image(self, filename: str, page: ConfluencePage):
+        for item in page.attachments['results']:
             if item["title"] == filename:
                 item["_links"]["download"]
-                self._download_attachment(self.url + item["_links"]["download"], SCRIPT_DIR + "/sphinx/images/" + filename)
+                self._download_attachment(self.url + item["_links"]["download"], PROJECT_ROOT_DIR + "/sphinx/images/" + filename)

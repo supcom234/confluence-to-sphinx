@@ -1,0 +1,10 @@
+--- 
+
+CONFLUENCE:
+  URL: "https://confluence.di2e.net"
+  USERNAME: "your username"
+  PASSWORD: "your pass"
+  SPACE: "The space name"
+  PAGES:
+  - "Title of confluence page 1"
+  - "Title of confluence page 2"

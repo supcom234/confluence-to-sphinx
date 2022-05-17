@@ -1,7 +1,33 @@
+import os
 import pytest
+import pdb
 
+from pytest import MonkeyPatch
+from pathlib import Path
 from bs4 import BeautifulSoup
 from confluence_converter.rst_converter import RSTConverter
+from confluence_converter.exporter import MyConfluenceExporter
+
+
+TESTFILES_DIR = os.path.dirname(os.path.realpath(__file__)) + "/testfiles"
+
+@pytest.fixture
+def mock_download_image(monkeypatch: MonkeyPatch):
+
+    def mock_download_image(self, filename, page):
+        return None
+        
+    monkeypatch.setattr(MyConfluenceExporter, "download_image", mock_download_image)
+
+class TestComplex:
+
+    def test_image_codeblock_imbedded(self, mock_download_image):
+        content = Path(TESTFILES_DIR + "/image_codeblock_imbedded_in_list.html").read_text()
+        soup = BeautifulSoup(content)
+        c = RSTConverter(is_confluence_mock=True)
+        # pdb.set_trace()
+        value = c.create_list_markup(soup.find("ol"))
+        assert "" == value
 
 
 class TestRSTConverter:
@@ -22,10 +48,10 @@ class TestRSTConverter:
         with pytest.raises(TypeError):            
             c.create_image_markup(None)
 
-
     def test_create_list_markup(self):
         c = RSTConverter()
         soup = BeautifulSoup("<ol><li>Item 1<ol><li>sub item 1</li><li>sub item 2</li></ol></li><li>Item 2<ol><li>sub2 item 1</li><li>sub2 item 2</li></ol></li></ol>", "html.parser")
+        # pdb.set_trace()
         value = c.create_list_markup(soup.find("ol"))
         assert "\n1. Item 1\n\n   1. sub item 1\n   2. sub item 2\n2. Item 2\n\n   1. sub2 item 1\n   2. sub2 item 2\n" == value
 
