@@ -61,17 +61,19 @@ class ConfluenceTransformer:
                     if child.name == "th" or child.name == "td":
                         if child and child.text:
                             row_list.append(child.text.strip())
+                        else:
+                            row_list.append("")
                 grid.append(row_list)
 
             self._add_string(make_table(grid) + "\n")
 
     def _process_tag(self, tag: Tag, page: ConfluencePage, indent=0):
-        print_tag(tag)        
+        print_tag(tag)
         if HTMLTag.is_heading(tag):
             value = self._rst_converter.create_heading_markup(tag)
             self._add_string(value)
-        elif HTMLTag.is_paragraph(tag) or HTMLTag.is_span(tag) or HTMLTag.is_strong(tag):
-            self._add_string(self._rst_converter.create_paragraph_markup(tag))            
+        elif HTMLTag.is_paragraph(tag) or HTMLTag.is_span(tag) or HTMLTag.is_strong(tag) or HTMLTag.is_italics(tag):
+            self._add_string(self._rst_converter.create_paragraph_markup(tag))
         elif HTMLTag.is_structured_macro(tag):
             self._add_string(str(self._rst_converter.create_structured_macro_markup(tag)))
         elif HTMLTag.is_break(tag):
@@ -106,6 +108,7 @@ class ConfluenceTransformer:
             with open(f"sphinx/pages/{page.title_filename}.rst", "w") as f:
                 f.writelines(self._lines)
 
+            self._lines.clear()
             page_titles.append(page.title_filename)
         generate_index_rst_file(page_titles)
 

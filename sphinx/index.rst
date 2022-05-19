@@ -4,7 +4,6 @@
    contain the root `toctree` directive.
 
 Welcome to confluence to sphinx documentation generation!
-if you are new go here :ref:`install Jubler <testpage>`
 
 ================================
 
@@ -12,8 +11,9 @@ if you are new go here :ref:`install Jubler <testpage>`
    :maxdepth: 2
    :caption: Contents:
 
+
    pages/v3.7_deployable_interceptor_platform_(dip)_troubleshooting_guide
-   pages/test_page_delete_later_for_prototype
+   pages/v3.7_r440_common_node_deployable_interceptor_platform_(dip)_installation_guide
 
 
 Indices and tables

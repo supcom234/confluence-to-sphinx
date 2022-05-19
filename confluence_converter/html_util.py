@@ -34,6 +34,11 @@ class HTMLTag:
         return cls._is_tag(tag, "p")
 
     @classmethod
+    def is_paragraph_compound(cls, tag: Tag) -> bool:
+        return (HTMLTag.is_paragraph(tag) or HTMLTag.is_underline(tag)
+                or HTMLTag.is_strong(tag) or HTMLTag.is_italics(tag))
+
+    @classmethod
     def is_structured_macro(cls, tag: Tag) -> bool:
         return cls._is_tag(tag, "ac:structured-macro")
 

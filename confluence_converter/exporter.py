@@ -33,6 +33,8 @@ class ConfluencePage:
 class MyConfluenceExporter(Confluence):
 
     def __init__(self, config: ConfigManager):
+        if config is None:
+            return
         self._config = config
         super().__init__(url=config.confluence_url,
                          username=config.confluence_username,
@@ -65,6 +67,6 @@ class MyConfluenceExporter(Confluence):
 
     def download_image(self, filename: str, page: ConfluencePage):
         for item in page.attachments['results']:
-            if item["title"] == filename:
+            if filename.replace("\\", "") == item["title"]:
                 item["_links"]["download"]
-                self._download_attachment(self.url + item["_links"]["download"], PROJECT_ROOT_DIR + "/sphinx/images/" + filename)
+                self._download_attachment(self.url + item["_links"]["download"], PROJECT_ROOT_DIR + "/sphinx/images/" + item["title"])
